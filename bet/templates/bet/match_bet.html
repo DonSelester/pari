@@ -1,0 +1,161 @@
+{% extends 'bet/base.html' %}
+{% block title %}Ваш баланс{% endblock %}
+
+{% block body %}
+<style>
+
+    #p1 {
+        font-family:verdana;
+        font-size:120%;
+        padding-top:6px;
+    }
+    #td_id, #th_id {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+    }
+</style>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<div class="row" >
+        <div class="col-md-12" style="margin-top: 10px;margin-bottom: 10px;background-color: white;">
+            {% if added %}
+            <h2 align="center"><b>Ставка поставлена!</b></h2>
+            {% elif error %}
+            <h2 align="center"><b>{{ error }}</b></h2>
+            {% else %}
+            <form style="margin: 0 auto; width:100%;" class="form-horizontal" role="form" method="post" enctype="multipart/form-data">
+            <div class="row">
+                <h4 style=" background-color:orange; padding:5px; padding-left:20px; padding-right:20px;font-size:150%;" class="leftstr">{{ league }}</h4>
+                <h4  style=" background-color:orange; padding:5px; padding-left:20px; padding-right:20px; font-size:150%;" class="rightstr">{{ league.kind_sport.title }}</h4>
+                    <div class="col-md-12">
+                        <table style="width:100%">
+                            <tr >
+                                <td id="td_id" style="width:5%; text-align:center; ">№</td>
+                                <td id="td_id" style="width:5%; text-align:center; ">Дата</td>
+                                <td id="td_id">Событие</td>
+                                <td id="td_id">П1</td>
+                                <td id="td_id">Х</td>
+                                <td id="td_id">П2</td>
+                            </tr>
+                            <tr >
+                                {% if bet %}
+                                <td id="td_id" style="width:5%; text-align:center; ">{{ tour.match.pk }}</td>
+                                <td id="td_id" style="width:5% text-align:center;">{{ tour.match.date|date:"d/m H:i" }}</td>
+                                <td id="td_id">{{ match_memb.country_id }} - {{ match_memb.title_id }}</td>
+
+                                <td id="td_id">
+                                    {% if bet.bet_team == match_memb.country_id %}
+                                        {% for m_k in match_koef %}
+                                            {% if m_k.bet_team_id == match_memb.country_id.pk %}
+                                            <label>{{ m_k.perc }}% - {{ m_k.koef }} {% if win.team_id == match_memb.country_id.pk %}(WIN){% endif %}</label>
+                                            {% endif %}
+                                        {% endfor %}
+                                        <input style="margin-top:6px;float: right;" type="radio" name="bet_team" value="{{ match_memb.country_id.pk }}" checked />
+                                    {% else %}
+                                        {% for m_k in match_koef %}
+                                            {% if m_k.bet_team_id == match_memb.country_id.pk  %}
+                                            <label>{{ m_k.perc }}% - {{ m_k.koef }} {% if win.team_id == match_memb.country_id.pk %}(WIN){% endif %}</label>
+                                            {% endif %}
+                                        {% endfor %}
+                                        <input style="margin-top:6px;float: right;" type="radio" name="bet_team" value="{{ match_memb.country_id.pk }}" disabled/>
+                                    {% endif %}
+                                </td>
+                                <td id="td_id">
+                                    {% if bet.bet_team_id == draw.pk %}
+                                        {% for m_k in match_koef %}
+                                            {% if m_k.bet_team_id == draw.pk  %}
+                                            <label>{{ m_k.perc }}% - {{ m_k.koef }} {% if dr %}(DRAW){% endif %}</label>
+                                            {% endif %}
+                                        {% endfor %}
+                                    <input style="margin-top:6px;float: right;" type="radio" name="bet_team" value="{{ draw.pk }}" checked/>
+                                    {% else %}
+                                        {% for m_k in match_koef %}
+                                            {% if m_k.bet_team_id == draw.pk  %}
+                                            <label>{{ m_k.perc }}% - {{ m_k.koef }} {% if dr %}(DRAW){% endif %}</label>
+                                            {% endif %}
+                                        {% endfor %}
+                                    <input style="margin-top:6px;float: right;" type="radio" name="bet_team" value="{{ draw.pk }}" disabled/>
+                                    {% endif %}
+                                </td>
+                                <td id="td_id">
+                                    {% if bet.bet_team == match_memb.title_id %}
+                                        {% for m_k in match_koef %}
+                                            {% if m_k.bet_team_id == match_memb.title_id.pk  %}
+                                            <label>{{ m_k.perc }}% - {{ m_k.koef }} {% if win.team_id == match_memb.title_id.pk %}(WIN){% endif %}</label>
+                                            {% endif %}
+                                        {% endfor %}
+                                    <input style="margin-top:6px;float: right;" type="radio" name="bet_team" value="{{  match_memb.title_id.pk }}" checked />
+                                    {% else %}
+                                    {% for m_k in match_koef %}
+                                            {% if m_k.bet_team_id == match_memb.title_id.pk  %}
+                                            <label>{{ m_k.perc }}% - {{ m_k.koef }} {% if win.team_id == match_memb.title_id.pk %}(WIN){% endif %}</label>
+                                            {% endif %}
+                                        {% endfor %}
+                                    <input style="margin-top:6px;float: right;" type="radio" name="bet_team" value="{{  match_memb.title_id.pk }}" disabled/>
+                                    {% endif %}
+                                </td>
+                                {% else %}
+                                <td id="td_id" style="width:5%; text-align:center; ">{{ tour.match.pk }}</td>
+                                <td id="td_id" style="width:5% text-align:center;">{{ tour.match.date|date:"d/m H:i" }}</td>
+                                <td id="td_id">{{ match_memb.country_id }} - {{ match_memb.title_id }}</td>
+
+                                <td id="td_id">
+                                    {% for m_k in match_koef %}
+                                            {% if m_k.bet_team_id == match_memb.country_id.pk %}
+                                            <label>{{ m_k.perc }}% - {{ m_k.koef }} {% if win.team_id == match_memb.country_id.pk %}(WIN){% endif %}</label>
+                                            {% endif %}
+                                        {% endfor %}
+                                    <input style="margin-top:6px;float: right;" type="radio" name="bet_team" value="{{ match_memb.country_id.pk }}" required/>
+                                </td>
+                                <td id="td_id">
+                                    {% for m_k in match_koef %}
+                                            {% if m_k.bet_team_id == draw.pk %}
+                                            <label>{{ m_k.perc }}% - {{ m_k.koef }} {% if dr %}(DRAW){% endif %}</label>
+                                            {% endif %}
+                                        {% endfor %}
+                                    <input style="margin-top:6px;float: right;" type="radio" name="bet_team" value="{{ draw.pk }}" />
+                                </td>
+                                <td id="td_id">
+                                    {% for m_k in match_koef %}
+                                            {% if m_k.bet_team_id == match_memb.title_id.pk %}
+                                            <label>{{ m_k.perc }}% - {{ m_k.koef }} {% if win.team_id == match_memb.title_id.pk %}(WIN){% endif %}</label>
+                                            {% endif %}
+                                        {% endfor %}
+                                    <input style="margin-top:6px;float: right;" type="radio" name="bet_team" value="{{  match_memb.title_id.pk }}" />
+                                </td>
+                                {% endif %}
+                            </tr>
+                        </table>
+                    </div>
+            </div>
+                    {% csrf_token %}
+                    <div class="form-group" style="margin-top:15px; width:40%; position:relative; left: 30%">
+                        <label   class="control-label col-md-5" for="id_bet_amount">
+                            Сумма ставки:
+                        </label>
+                        {% if bet.bet_amount %}
+                        <div  class="col-md-7">
+                            <input align="right" style="width:100%;" id="id_bet_amount" min="1" name="bet_amount" type="number" value="{{ bet.bet_amount }}" placeholder="1.0" required pattern="^[ 0-9]+$" disabled >
+                        </div>
+                        {% else %}
+                        <div  class="col-md-7">
+                            <input align="right" style="width:100%;" id="id_bet_amount" min="1" name="bet_amount" type="number" placeholder="1.0" required pattern="^[ 0-9]+$" >
+                        </div>
+                        {% endif %}
+                    </div>
+                    {% if bet or win or dr or user.player.frozen %}
+                    {% else %}
+                    <div class="form-group" style="margin-top:15px;">
+                        <div class="col-md-12">
+                            <input style="margin-top:15px;margin-bottom:15px;width:40%; position:relative; left: 30%" class="btn btn-warning" name="" type="submit" value="Подтвердить ставку">
+                        </div>
+                    </div>
+                    {% endif %}
+                </form>
+            {% endif %}
+        </div>
+
+</div>
+{% endblock %}

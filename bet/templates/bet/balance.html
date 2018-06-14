@@ -1,0 +1,131 @@
+{% extends 'bet/base.html' %}
+{% block title %}Ваш баланс{% endblock %}
+
+{% block body %}
+<style>
+    #p1 {
+        font-family:verdana;
+        font-size:120%;
+        padding-top:6px;
+    }
+    #td_id, #th_id {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+    }
+</style>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<div class="row" >
+        <div class="col-md-12" style="margin-top: 10px;margin-bottom: 10px;background-color: white;">
+                <ul class="nav nav-tabs" style=" margin-left: -15px; margin-right: -15px; padding:10px; background-color: orange;">
+                    <li class="active"><a data-toggle="tab" href="#home" style=" font-size:18px;">Ввод средств</a></li>
+                    <li><a data-toggle="tab" href="#menu1" style=" font-size:18px;">Вывод средств</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div id="home" class="tab-pane fade in active">
+                        <table class="table table-hover" style="text-align:center;font-size:16px;">
+                            <thead>
+                                <tr>
+                                    <td style="text-align:left;"><b>Способ оплаты</b></td>
+                                    <td><b>Мин. сумма</b></td>
+                                    <td><b>Комиссия</b></td>
+                                    <td><b>Время обработки</b></td>
+                                    <td> </td>
+                                </tr>
+                            </thead>
+                            <tr>
+                                <td style="text-align:left;"><img alt="flat fee mls" title="flat fee mls" src="http://www.free-credit-card-logos.com/mc_ms_vs_accpt_h_023_gif.gif" width="113" height="100%" border="0" /> VISA/MasterCard</td>
+                                <td>25.0 - &infin;</td>
+                                <td>0%</td>
+                                <td>моментально</td>
+                                <td><a href="{% url 'user_payin' 'card' %}">
+                                    <input class="btn btn-warning" style="width:100%; margin-left:3%; font-size:110%;" type="submit" value="Пополнить"></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="text-align:left;"><img alt="wm" title="wm" src="https://www.webmoney.ru/img/icons/88x31_wm_white_blue.png" width="113" height="100%" border="0" /> WebMoney</td>
+                                <td>50.0 - &infin;</td>
+                                <td>0%</td>
+                                <td>моментально</td>
+                                <td><a href="{% url 'user_payin' 'wm' %}">
+                                    <input class="btn btn-warning" style="width:100%; margin-left:3%; font-size:110%;" type="submit" value="Пополнить"></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="text-align:left;"><img alt="mob" title="mob" src="http://ukzambians.co.uk/home/wp-content/uploads/2016/06/vodafone.jpg" width="113" height="100%" border="0" /> Vodafone</td>
+                                <td>50.0 - &infin;</td>
+                                <td>0%</td>
+                                <td>моментально</td>
+                                <td><a href="{% url 'user_payin' 'phone' %}">
+                                    <input class="btn btn-warning" style="width:100%; margin-left:3%; font-size:110%;" type="submit" value="Пополнить"></a>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div id="menu1" class="tab-pane fade">
+                        <table class="table table-hover" style="text-align:center;font-size:16px;">
+                            <thead>
+                                <tr>
+                                    <td style="text-align:left;"><b>Способ вывода</b></td>
+                                    <td><b>Мин. сумма</b></td>
+                                    <td><b>Комиссия</b></td>
+                                    <td><b>Время обработки</b></td>
+                                    <td> </td>
+                                </tr>
+                            </thead>
+                            <tr>
+                                <td style="text-align:left;"><img alt="flat fee mls" title="flat fee mls" src="http://www.free-credit-card-logos.com/mc_ms_vs_accpt_h_023_gif.gif" width="113" height="100%" border="0" /> VISA/MasterCard</td>
+                                <td>25.0 - &infin;</td>
+                                <td>1%</td>
+                                <td>1-5 минут</td>
+                                <td><input class="btn btn-warning" style="width:100%; margin-left:3%; font-size:110%;" type="submit" value="Вывести"></td>
+                            </tr>
+                            <tr>
+                                <td style="text-align:left;"><img alt="wm" title="wm" src="https://www.webmoney.ru/img/icons/88x31_wm_white_blue.png" width="113" height="100%" border="0" /> WebMoney</td>
+                                <td>50.0 - &infin;</td>
+                                <td>2,5%</td>
+                                <td>5-10 минут</td>
+                                <td><input class="btn btn-warning" style="width:100%; margin-left:3%; font-size:110%;" type="submit" value="Вывести"></td>
+                            </tr>
+                            <tr>
+                                <td style="text-align:left;"><img alt="mob" title="mob" src="http://ukzambians.co.uk/home/wp-content/uploads/2016/06/vodafone.jpg" width="113" height="100%" border="0" /> Vodafone</td>
+                                <td>50.0 - &infin;</td>
+                                <td>3%</td>
+                                <td>1-2 часа</td>
+                                <td><input class="btn btn-warning" style="width:100%; margin-left:3%; font-size:110%;" type="submit" value="Вывести"></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+        </div>
+        <div class="col-md-12" style="margin-top: 10px;margin-bottom: 10px;background-color: white;">
+                    <h2 style=" padding: 15px; margin-top: 0px;margin-bottom: 5px; margin-left: -15px; margin-right: -15px; background-color: orange;">Операции по счету:</h2>
+            <div class="col-md-12">
+                {% if operations %}
+                <table class="table table-hover" style="text-align:center;font-size:16px;">
+                    <thead>
+                    <tr>
+                        <td style="text-align:left;"><b>Дата</b></td>
+                        <td><b>Способ пополнения</b></td>
+                        <td><b>Тип операции</b></td>
+                        <td><b>Сумма транзакции</b></td>
+                    </tr>
+                    </thead>
+                    {% for op in operations %}
+                    <tr>
+                        <td style="text-align:left;">{{ op.date }}</td>
+                        <td>{{ op.card }}</td>
+                        <td>{{ op.operation_type }}</td>
+                        <td>{{ op.transaction_amount }}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+                {% else %}
+                <h2>Нет транзакций</h2>
+                {% endif %}
+            </div>
+        </div>
+</div>
+{% endblock %}

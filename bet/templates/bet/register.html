@@ -1,0 +1,36 @@
+{% extends 'bet/base.html' %}
+{% block title %}Регистрация{% endblock %}
+
+{% block body %}
+<div class="container-fluid" style="position:relative;">
+
+    <div class="row" >
+        <div align="right" class="col-sm-1 col-md-4">
+        </div>
+        <div align="right" class="col-sm-1 col-md-3">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <h3>Регистрация нового аккаунта</h3>
+                    {% if registered %}
+                        <p><strong>Спасибо за регистрацию!</strong></p>
+                    {% else %}
+                        <form class="form-horizontal" role="form" action="" method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            {{ user_form.as_p }}
+                            {{ player_form.as_p }}
+                            <input class="btn btn-outline-secondary" type="submit" name="" value="Register">
+                        </form>
+                    {% endif %}
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+<script>
+    document.getElementById('id_email').placeholder = 'example@gmail.com';
+
+    document.getElementById('id_phone').placeholder = '+380660001122';
+</script>
+{% endblock %}

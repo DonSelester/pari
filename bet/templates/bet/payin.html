@@ -1,0 +1,109 @@
+{% extends 'bet/base.html' %}
+{% block title %}Ваш баланс{% endblock %}
+
+{% block body %}
+<style>
+    #p1 {
+        font-family:verdana;
+        font-size:120%;
+        padding-top:6px;
+    }
+    #td_id, #th_id {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+    }
+</style>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<div class="row" >
+        <div class="col-md-12" style="margin-top: 10px;margin-bottom: 10px;background-color: white;">
+            {% if card %}
+                {% if added %}
+                <p><b>Транзакция успешна!</b></p>
+                {% else %}
+                <h1 align="center">Введите данные карты</h1>
+                <form style="margin: 0 auto; width:40%;" class="form-horizontal" role="form" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label class="control-label col-md-4" for="id_card">Номер карты:</label>
+                        <div class="col-md-8">
+                            <input style="width:100%;" id="id_card" maxlength="16" name="card" type="text" placeholder="1111222233334444" required pattern="^[ 0-9]{16}$">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-4" for="id_transaction_amount">
+                                    Сумма:
+                        </label>
+                        <div class="col-md-8">
+                            <input align="right" style="width:60%;" id="id_transaction_amount" min="25" name="transaction_amount" type="number" placeholder="25.0" required pattern="^[ 0-9]+$" >
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <input style="width:100%;" class="btn btn-warning" name="" type="submit" value="Подтвердить пополнение">
+                        </div>
+                    </div>
+                </form>
+                {% endif %}
+            {% elif wm %}
+             {% if added %}
+                <p><b>Транзакция успешна!</b></p>
+                {% else %}
+                <h1 align="center">Введите данные WM счета</h1>
+                <form style="margin: 0 auto; width:40%;" class="form-horizontal" role="form" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label class="control-label col-md-4"  for="id_card">WM счет: </label>
+                        <div class="col-md-8">
+                            <input style="width:100%;" id="id_card" maxlength="10" name="card" type="text" placeholder="1234567890" required pattern="^[ 0-9]{10}$">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-4" for="id_transaction_amount">
+                                    Сумма:
+                        </label>
+                        <div class="col-md-8">
+                            <input align="right" style="width:60%;" id="id_transaction_amount" min="50" name="transaction_amount" type="number" placeholder="50.0" required pattern="^[ 0-9]+$" >
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <input style="width:100%;" class="btn btn-warning" name="" type="submit" value="Подтвердить пополнение">
+                        </div>
+                    </div>
+                </form>
+            {% endif %}
+            {% elif phone %}
+             {% if added %}
+                <p><b>Транзакция успешна!</b></p>
+                {% else %}
+                <h1 align="center">Введите данные телефона</h1>
+                <form style="margin: 0 auto; width:40%;" class="form-horizontal" role="form" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label class="control-label col-md-4" for="id_card">Номер телефона:</label>
+                        <div class="col-md-8">
+                            <input style="width:100%;" id="id_card" maxlength="12" name="card" type="text" placeholder="380503334455" required pattern="^[ 0-9]{12}$">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-4" for="id_transaction_amount">
+                                    Сумма:
+                        </label>
+                        <div class="col-md-8">
+                            <input align="right" style="width:60%;" id="id_transaction_amount" min="50" name="transaction_amount" type="number" placeholder="50.0" required pattern="^[ 0-9]+$" >
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <input style="width:100%;" class="btn btn-warning" name="" type="submit" value="Подтвердить пополнение">
+                        </div>
+                    </div>
+                </form>
+            {% endif %}
+            {% endif %}
+        </div>
+</div>
+{% endblock %}

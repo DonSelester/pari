@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+    {% load staticfiles %}
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    <link href='https://fonts.googleapis.com/css?family=Satisfy' rel='stylesheet' type='text/css'>
+    <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+
+    <script type="text/javascript">
+function getDate()
+{
+    var date = new Date();
+    var day = date.getDate();
+    var month = date.getMonth();
+    var hours = date.getHours();
+    var minutes = date.getMinutes();
+    var seconds = date.getSeconds();
+    //По надобности условие ниже повторить с minutes и hours
+    if(seconds < 10)
+    {
+        seconds = '0' + seconds;
+    }
+    if((day<10) && (month-1)<10){
+        document.getElementById('timedisplay').innerHTML = '0'+day + '.' + '0'+(month+1) + ' ' + hours + ':' + minutes + ':' + seconds;
+    }
+    else if((month+1)<10){
+        document.getElementById('timedisplay').innerHTML = day + '.' + '0'+(month+1) + ' ' + hours + ':' + minutes + ':' + seconds;
+    }
+    else if(day<10){
+        document.getElementById('timedisplay').innerHTML = '0'+day + '.' + (month+1) + ' ' + hours + ':' + minutes + ':' + seconds;
+    }
+
+}
+setInterval(getDate, 0);
+</script>
+    <style>
+   .leftstr, .rightstr {
+   font-family:verdana;
+        font-size:120%;
+        padding-top:6px;
+    float: left; /* Обтекание справа */
+    width: 50%; /* Ширина текстового блока */
+   }
+   .rightstr {
+    text-align: right; /* Выравнивание по правому краю */
+   }
+
+    a:link {
+        color: black;
+
+    }
+
+    /* visited link */
+    a:visited {
+        color: black;
+    }
+
+    /* mouse over link */
+    a:hover {
+        color: grey;
+         text-decoration: none;
+    }
+
+    /* selected link */
+    a:active {
+        color: black;
+         text-decoration: none;
+    }
+    </style>
+</head>
+<body style="background-color: silver; ">
+<div class="container">
+    <div class="row" >
+        <div class="col-md-12" style="background-color:orange; height:45px; ">
+            <p class="leftstr"><a href="{% url 'index' %}">PariBet</a>  <span id="timedisplay"></span></p>
+            {% if user.is_authenticated %}
+            <p class="rightstr"><a class="button button1" href="">Вы вошли как, {{ user.username }}</a>    
+                <a class="button button1" href="{% url 'user_balance' %}">Баланс: {{ user.player.balance }}</a>    
+                <a href="{% url 'logout' %}">Выход</a></p>
+            {% else %}
+            <p class="rightstr"><a class="button button1" href="{% url 'register' %}">Регистрация</a>    <a href="{% url 'login' %}">Вход</a></p>
+            {% endif %}
+        </div>
+    </div>
+    {% if user.player.frozen %}
+    <div class="row" >
+        <div class="col" style=" width:90%; margin-top:10px; background-color:red; height:30px; ">
+            <p style="font-family:verdana;font-size:120%;color:white;" >Ваш аккаунт заморожен. Обратитесь к администрации для выяснения обстоятельств!</p>
+
+
+        </div>
+    </div>
+    {% endif %}
+{% block body %}
+{% endblock %}
+
+</div>
+</body>
+</html>
